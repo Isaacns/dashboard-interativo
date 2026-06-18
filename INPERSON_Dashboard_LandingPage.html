@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Interativo — INPERSON Soluções em Tecnologia</title>
+<meta name="description" content="Transformamos sua planilha em um dashboard interativo profissional. Acesso de qualquer lugar, cálculos automáticos e dados sempre atualizados.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0D1B3E;--navy-mid:#16285A;--blue:#1A4DA8;--blue-l:#2563EB;
+  --gold:#F59E0B;--gold-l:#FCD34D;--green:#10B981;--red:#EF4444;
+  --bg:#F1F5F9;--card:#fff;--border:#E2E8F0;--text:#1E293B;--muted:#64748B;
+}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#fff;color:var(--text);line-height:1.6}
+a{text-decoration:none;color:inherit}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 55%,var(--blue) 100%);
+  padding:80px 24px 100px;text-align:center;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:60px;
+  background:#fff;clip-path:ellipse(55% 100% at 50% 100%)}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.15);
+  border:1px solid rgba(245,158,11,.3);color:var(--gold-l);padding:6px 16px;
+  border-radius:20px;font-size:13px;font-weight:600;margin-bottom:28px}
+.hero h1{font-size:clamp(32px,6vw,56px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:20px;max-width:780px;margin-left:auto;margin-right:auto}
+.hero h1 span{color:var(--gold)}
+.hero p{font-size:18px;color:rgba(255,255,255,.7);max-width:560px;margin:0 auto 36px}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--navy);padding:14px 32px;border-radius:10px;
+  font-size:16px;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:var(--gold-l);transform:translateY(-2px)}
+.btn-secondary{background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.3);
+  padding:14px 32px;border-radius:10px;font-size:16px;font-weight:600;transition:all .2s}
+.btn-secondary:hover{background:rgba(255,255,255,.18)}
+
+/* MOCKUP CARDS */
+.mockup{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;padding:40px 24px 0;
+  max-width:900px;margin:0 auto}
+.mock-card{background:#fff;border-radius:14px;padding:20px 24px;box-shadow:0 8px 32px rgba(0,0,0,.12);
+  flex:1;min-width:200px;max-width:240px}
+.mock-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px}
+.mock-val{font-size:28px;font-weight:800;color:var(--navy)}
+.mock-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.mock-card.blue .mock-val{color:var(--blue-l)}
+.mock-card.green .mock-val{color:var(--green)}
+
+/* SECTION */
+section{padding:80px 24px}
+.container{max-width:1080px;margin:0 auto}
+.section-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--blue-l);margin-bottom:12px}
+.section-title{font-size:clamp(26px,4vw,40px);font-weight:800;color:var(--navy);
+  margin-bottom:16px;line-height:1.2}
+.section-sub{font-size:17px;color:var(--muted);max-width:560px}
+
+/* PROBLEMS */
+.problems{background:var(--bg)}
+.prob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:48px}
+.prob-card{background:#fff;border-radius:14px;padding:28px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.prob-icon{font-size:36px;margin-bottom:16px}
+.prob-card h3{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.prob-card p{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:48px}
+.feat-item{display:flex;gap:16px;align-items:flex-start;padding:24px;background:var(--bg);border-radius:12px}
+.feat-icon-wrap{width:48px;height:48px;border-radius:12px;background:var(--navy);display:flex;
+  align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.feat-item h3{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.feat-item p{font-size:13px;color:var(--muted)}
+
+/* PROCESS */
+.process{background:var(--navy)}
+.process .section-label{color:var(--gold)}
+.process .section-title{color:#fff}
+.process .section-sub{color:rgba(255,255,255,.6)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:48px}
+.step{background:rgba(255,255,255,.06);border-radius:14px;padding:28px;border:1px solid rgba(255,255,255,.1)}
+.step-n{width:44px;height:44px;border-radius:50%;background:var(--gold);
+  display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;
+  color:var(--navy);margin-bottom:16px}
+.step h3{font-size:17px;font-weight:700;color:#fff;margin-bottom:8px}
+.step p{font-size:13px;color:rgba(255,255,255,.6)}
+.step-time{display:inline-block;margin-top:12px;background:rgba(245,158,11,.15);
+  color:var(--gold);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:48px}
+.price-card{border-radius:14px;padding:32px;border:2px solid var(--border);position:relative;overflow:hidden}
+.price-card.popular{border-color:var(--gold);box-shadow:0 8px 32px rgba(245,158,11,.2)}
+.popular-badge{position:absolute;top:16px;right:16px;background:var(--gold);color:var(--navy);
+  font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:.5px}
+.price-name{font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:20px}
+.price-setup{font-size:13px;color:var(--muted);margin-bottom:4px}
+.price-setup span{font-size:28px;font-weight:800;color:var(--navy)}
+.price-monthly{font-size:13px;color:var(--muted);margin-bottom:24px}
+.price-monthly span{font-size:20px;font-weight:700;color:var(--blue-l)}
+.price-divider{height:1px;background:var(--border);margin-bottom:20px}
+.price-feat{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:14px;color:var(--text)}
+.price-feat::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0}
+.price-cta{display:block;text-align:center;padding:13px;border-radius:9px;font-size:15px;
+  font-weight:700;margin-top:24px;transition:all .2s;background:var(--navy);color:#fff}
+.price-cta:hover{background:var(--blue-l)}
+.price-card.popular .price-cta{background:var(--gold);color:var(--navy)}
+.price-card.popular .price-cta:hover{background:var(--gold-l)}
+.price-note{text-align:center;font-size:13px;color:var(--muted);margin-top:24px;font-style:italic}
+
+/* CASE */
+.case{background:var(--bg)}
+.case-inner{background:#fff;border-radius:16px;padding:40px;box-shadow:0 4px 20px rgba(0,0,0,.08);
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.case-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--blue-l);margin-bottom:8px}
+.case-title{font-size:24px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.case-sub{font-size:14px;color:var(--muted);margin-bottom:20px;font-style:italic}
+.case-stats{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.stat{text-align:center;background:var(--navy);border-radius:10px;padding:14px 18px;flex:1;min-width:80px}
+.stat-val{font-size:24px;font-weight:800;color:var(--gold)}
+.stat-label{font-size:10px;color:rgba(255,255,255,.7);margin-top:4px}
+.case-built h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px}
+.case-built li{display:flex;gap:10px;font-size:13px;color:var(--text);margin-bottom:10px;list-style:none}
+.case-built li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0}
+.case-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;
+  color:var(--blue-l);font-size:13px;font-weight:600}
+
+/* DIFFERENTIALS */
+.diff-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:48px}
+.diff-card{padding:24px;border-radius:12px;border:1.5px solid var(--border);transition:all .2s}
+.diff-card:hover{border-color:var(--blue-l);box-shadow:0 4px 16px rgba(37,99,235,.1);transform:translateY(-2px)}
+.diff-icon{font-size:28px;margin-bottom:12px}
+.diff-card h3{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.diff-card p{font-size:13px;color:var(--muted)}
+
+/* CTA SECTION */
+.cta-section{background:linear-gradient(135deg,var(--navy),var(--blue));padding:80px 24px;text-align:center}
+.cta-section h2{font-size:clamp(28px,5vw,44px);font-weight:800;color:#fff;margin-bottom:16px}
+.cta-section p{font-size:17px;color:rgba(255,255,255,.7);margin-bottom:36px;max-width:500px;margin-left:auto;margin-right:auto}
+.contact-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:12px;padding:20px 32px;display:inline-flex;gap:32px;flex-wrap:wrap;
+  justify-content:center;margin-bottom:28px}
+.contact-item{display:flex;align-items:center;gap:10px;color:#fff;font-size:15px;font-weight:600}
+
+/* FOOTER */
+footer{background:var(--navy);padding:32px 24px;text-align:center}
+footer p{color:rgba(255,255,255,.4);font-size:13px}
+footer strong{color:var(--gold)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .case-inner{grid-template-columns:1fr}
+  .hero{padding:60px 24px 80px}
+  section{padding:60px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">🚀 INPERSON Soluções em Tecnologia</div>
+  <h1>Sua planilha<br>transformada em<br><span>dashboard interativo</span></h1>
+  <p>Controle total dos seus dados. Acesso de qualquer lugar. Cálculos automáticos. Dados sempre atualizados.</p>
+  <div class="hero-btns">
+    <a href="https://wa.me/5571991684231?text=Olá,%20Isaac!%20Quero%20saber%20mais%20sobre%20o%20dashboard%20interativo." class="btn-primary">
+      💬 Falar com especialista
+    </a>
+    <a href="https://isaacns.github.io/escrituras-cartorio/" target="_blank" class="btn-secondary">
+      👁 Ver demo ao vivo
+    </a>
+  </div>
+</section>
+
+<!-- MOCKUP CARDS -->
+<div style="background:#fff;padding:0 24px 60px">
+  <div class="mockup">
+    <div class="mock-card">
+      <div class="mock-label">Total a Receber</div>
+      <div class="mock-val">R$ 1.430</div>
+      <div class="mock-sub">✓ Calculado automaticamente</div>
+    </div>
+    <div class="mock-card blue">
+      <div class="mock-label">E/R Realizadas</div>
+      <div class="mock-val">27</div>
+      <div class="mock-sub">Registro visual por mês</div>
+    </div>
+    <div class="mock-card green">
+      <div class="mock-label">Sincronização</div>
+      <div class="mock-val">🟢 Live</div>
+      <div class="mock-sub">Dados em tempo real</div>
+    </div>
+    <div class="mock-card">
+      <div class="mock-label">Idas a PF</div>
+      <div class="mock-val">4/4</div>
+      <div class="mock-sub">Acordo cumprido ✓</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEMS -->
+<section class="problems">
+  <div class="container">
+    <div class="section-label">O Problema</div>
+    <h2 class="section-title">Sua planilha está te limitando</h2>
+    <p class="section-sub">Se você ainda controla seu negócio em Excel ou Google Sheets, provavelmente enfrenta isso todo dia.</p>
+    <div class="prob-grid">
+      <div class="prob-card">
+        <div class="prob-icon">📊</div>
+        <h3>Arquivo preso no computador</h3>
+        <p>Para ver os dados, precisa abrir o arquivo. Não funciona no celular. Não consegue compartilhar com clientes de forma profissional.</p>
+      </div>
+      <div class="prob-card">
+        <div class="prob-icon">🔢</div>
+        <h3>Cálculos feitos à mão</h3>
+        <p>Fórmulas complexas quebram sem aviso. Erros passam despercebidos. Horas perdidas refazendo contas que deveriam ser automáticas.</p>
+      </div>
+      <div class="prob-card">
+        <div class="prob-icon">🔒</div>
+        <h3>Sem controle de acesso</h3>
+        <p>Ou todo mundo acessa tudo, ou ninguém acessa nada. Não há como dar ao seu cliente uma visão profissional sem expor dados internos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="container">
+    <div class="section-label">A Solução</div>
+    <h2 class="section-title">Tudo que você precisa,<br>num link só</h2>
+    <p class="section-sub">Transformamos sua planilha em um sistema web completo, sem complicação.</p>
+    <div class="feat-grid">
+      <div class="feat-item">
+        <div class="feat-icon-wrap">🌐</div>
+        <div><h3>Acesso universal</h3><p>Funciona no celular, tablet e computador. Você e seu cliente acessam de qualquer lugar, sem instalar nada.</p></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon-wrap">🔐</div>
+        <div><h3>Dois perfis de acesso</h3><p>Você gerencia com senha — insere, edita e exclui dados. Seu cliente só visualiza o que você quer mostrar.</p></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon-wrap">🧮</div>
+        <div><h3>Cálculos automáticos</h3><p>As regras do seu negócio ficam embutidas no sistema. Sem erro, sem retrabalho, sem planilha quebrada.</p></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon-wrap">☁️</div>
+        <div><h3>Dados na nuvem</h3><p>Sincronizado com o Google Sheets da sua conta. Seus dados ficam seguros e acessíveis de qualquer dispositivo.</p></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon-wrap">📊</div>
+        <div><h3>Relatórios prontos</h3><p>Gere relatórios mensais formatados para imprimir ou enviar. Com visões diferentes para admin e cliente.</p></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon-wrap">🎨</div>
+        <div><h3>Visual profissional</h3><p>Design limpo e moderno com a identidade do seu negócio. Impressiona o cliente na primeira vez que abre.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="container">
+    <div class="section-label">Como Funciona</div>
+    <h2 class="section-title">3 etapas simples,<br>sem complicação</h2>
+    <p class="section-sub">Você não precisa entender nada de tecnologia. A gente cuida de tudo.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <h3>Entendemos seu processo</h3>
+        <p>Mapeamos suas planilhas, as regras de cálculo e o que você quer visualizar. Uma conversa de 30 a 60 minutos.</p>
+        <span class="step-time">30–60 min</span>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <h3>Construímos seu dashboard</h3>
+        <p>Desenvolvemos o sistema personalizado com suas regras, sua identidade visual e os acessos que você precisa.</p>
+        <span class="step-time">5 a 10 dias úteis</span>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <h3>Entregamos e treinamos</h3>
+        <p>Você recebe o link, testamos juntos e te ensinamos a usar em menos de 30 minutos. Suporte contínuo incluso.</p>
+        <span class="step-time">Entrega + treinamento</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section>
+  <div class="container">
+    <div class="section-label">Investimento</div>
+    <h2 class="section-title">Planos para cada<br>momento do negócio</h2>
+    <p class="section-sub">Setup único + mensalidade de manutenção e suporte. Sem surpresas.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-name">Essencial</div>
+        <div class="price-setup">Setup: <span>R$ 497</span></div>
+        <div class="price-monthly">Mensal: <span>R$ 97/mês</span></div>
+        <div class="price-divider"></div>
+        <div class="price-feat">1 dashboard personalizado</div>
+        <div class="price-feat">Acesso admin + leitura</div>
+        <div class="price-feat">Cálculos automáticos</div>
+        <div class="price-feat">Suporte por WhatsApp</div>
+        <div class="price-feat">Até 3 ajustes por mês</div>
+        <a href="https://wa.me/5571991684231?text=Tenho%20interesse%20no%20plano%20Essencial." class="price-cta">Começar agora</a>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-badge">MAIS POPULAR</div>
+        <div class="price-name">Profissional</div>
+        <div class="price-setup">Setup: <span>R$ 897</span></div>
+        <div class="price-monthly">Mensal: <span>R$ 197/mês</span></div>
+        <div class="price-divider"></div>
+        <div class="price-feat">Até 3 dashboards</div>
+        <div class="price-feat">Múltiplos perfis de acesso</div>
+        <div class="price-feat">Relatórios PDF automáticos</div>
+        <div class="price-feat">Suporte prioritário</div>
+        <div class="price-feat">Ajustes ilimitados</div>
+        <a href="https://wa.me/5571991684231?text=Tenho%20interesse%20no%20plano%20Profissional." class="price-cta">Quero este plano</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Corporativo</div>
+        <div class="price-setup">Setup: <span style="font-size:20px">Sob consulta</span></div>
+        <div class="price-monthly">Mensal: <span style="font-size:16px">Sob consulta</span></div>
+        <div class="price-divider"></div>
+        <div class="price-feat">Dashboards ilimitados</div>
+        <div class="price-feat">Integração com sistemas</div>
+        <div class="price-feat">Treinamento da equipe</div>
+        <div class="price-feat">SLA garantido</div>
+        <div class="price-feat">Desenvolvimento dedicado</div>
+        <a href="https://wa.me/5571991684231?text=Quero%20uma%20proposta%20do%20plano%20Corporativo." class="price-cta">Solicitar proposta</a>
+      </div>
+    </div>
+    <p class="price-note">* Preços podem variar conforme a complexidade do projeto. Solicite um diagnóstico gratuito.</p>
+  </div>
+</section>
+
+<!-- CASE REAL -->
+<section class="case">
+  <div class="container">
+    <div class="section-label">Case Real</div>
+    <h2 class="section-title">Do Excel ao dashboard<br>em produção</h2>
+    <div class="case-inner" style="margin-top:32px">
+      <div>
+        <div class="case-label">Cliente</div>
+        <div class="case-title">🏛️ Cartório Praia do Forte</div>
+        <div class="case-sub">Salvador, Bahia — Serviços de courier jurídico</div>
+        <div class="case-stats">
+          <div class="stat"><div class="stat-val">6+</div><div class="stat-label">meses de dados</div></div>
+          <div class="stat"><div class="stat-val">2</div><div class="stat-label">perfis de acesso</div></div>
+          <div class="stat"><div class="stat-val">100%</div><div class="stat-label">automático</div></div>
+        </div>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6">Controle manual em planilha Excel com cálculos complexos de descontos por não-idas a Praia do Forte, sem acesso remoto e sem visão para o cliente.</p>
+        <a href="https://isaacns.github.io/escrituras-cartorio/" target="_blank" class="case-link">
+          🔗 Ver dashboard ao vivo →
+        </a>
+      </div>
+      <div>
+        <div class="case-built">
+          <h4>O que foi construído:</h4>
+          <ul>
+            <li>Dashboard web acessível no celular e computador</li>
+            <li>Cálculo automático do acordo mensal (pacote + gráficas + descontos)</li>
+            <li>Modo admin (inserir/excluir) e modo cliente (só leitura)</li>
+            <li>Sincronização com Google Sheets em tempo real</li>
+            <li>Relatórios mensais prontos para imprimir</li>
+            <li>Suporte a meses com recesso (idas exigidas variáveis)</li>
+            <li>Controle de idas a Praia do Forte com cálculo de abatimentos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENTIALS -->
+<section>
+  <div class="container">
+    <div class="section-label">Por que a INPERSON?</div>
+    <h2 class="section-title">O que nos diferencia</h2>
+    <div class="diff-grid">
+      <div class="diff-card">
+        <div class="diff-icon">🤝</div>
+        <h3>Atendimento local</h3>
+        <p>Baseados em Salvador. Reunião presencial disponível. Entendemos a realidade dos negócios baianos.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">⚡</div>
+        <h3>Entrega rápida</h3>
+        <p>Sem burocracia de grandes agências. Do briefing à entrega em até 10 dias úteis.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">🎯</div>
+        <h3>Solução sob medida</h3>
+        <p>Não é template. Cada dashboard é construído para as regras específicas do seu negócio.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">💰</div>
+        <h3>Preço justo</h3>
+        <p>Tecnologia de qualidade sem cobrar como agência grande. Compatível com pequenas e médias empresas.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">📱</div>
+        <h3>Mobile-first</h3>
+        <p>Desenvolvemos pensando no celular primeiro. Funciona em qualquer dispositivo sem instalar nada.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">🔄</div>
+        <h3>Evolui com você</h3>
+        <p>Novo campo? Nova regra? Ajustamos conforme o negócio cresce. O plano mensal cobre isso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Comece hoje.<br>Diagnóstico gratuito.</h2>
+    <p>Mostre sua planilha atual. Vamos analisar o que pode ser automatizado e mostrar o potencial do seu dashboard — sem compromisso.</p>
+    <div class="contact-box">
+      <div class="contact-item">📞 (71) 99168-4231</div>
+      <div class="contact-item">✉️ isaacn.ti@outlook.com</div>
+    </div>
+    <div>
+      <a href="https://wa.me/5571991684231?text=Olá!%20Quero%20agendar%20um%20diagnóstico%20gratuito%20do%20dashboard." class="btn-primary" style="font-size:17px;padding:16px 40px">
+        💬 Agendar diagnóstico gratuito
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>INPERSON Soluções em Tecnologia</strong> · Salvador, Bahia · (71) 99168-4231 · isaacn.ti@outlook.com</p>
+  <p style="margin-top:8px">Infraestrutura de TI · Redes · Suporte · Dashboards Interativos · Automação</p>
+</footer>
+
+</body>
+</html>
